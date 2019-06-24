@@ -1,0 +1,2 @@
+include Makefile README.md README.rst README.txt project.ini requirements.txt
+recursive-include hug_swagger/jinja2 *

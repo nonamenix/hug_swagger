@@ -1,0 +1,26 @@
+*.pyc
+*.log
+
+# IDE files
+.idea/
+.tmp/
+.vscode/
+
+# coverage
+.coverage
+coverage/
+
+# docs
+docs/_build
+
+# virtualenv activation
+/.virtualenv
+/.venv*
+/activate
+.pytest_cache/
+
+# dist
+/dist
+/*.egg-info
+
+.reports
