@@ -1,12 +1,12 @@
 dist: xenial
 language: python
 python:
-- '3.7'
+  - "3.6"
 install:
-- pip install -r requirements-test.txt
-- pip install coveralls
+  - pip install -r requirements-test.txt
+  - pip install coveralls
 script:
-- make ci_test
+  - make ci_test
 after_success: coveralls
 deploy:
   provider: pypi
