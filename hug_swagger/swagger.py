@@ -1,6 +1,6 @@
 import logging
 from inspect import signature, Parameter, isclass
-from typing import Optional, Tuple
+from typing import Optional, Tuple, List
 
 from apispec import APISpec
 from apispec.exceptions import DuplicateComponentNameError
@@ -20,9 +20,12 @@ PARAMETER_IN_PATH = "path"
 PARAMETER_IN_QUERY = "query"
 
 
-def get_summary(doc: Optional[str]) -> Optional[str]:
+def get_summary_and_description(doc: Optional[str]) -> Tuple[Optional[str], Optional[str]]:
     if doc is not None:
-        return doc.split("\n")[0]
+        lines = [line.strip() for line in doc.split("\n") if line.strip()]
+        return lines[0], "\n".join(lines[1:])
+
+    return None, None
 
 
 def get_parameter_location(name: str, url: str) -> str:
@@ -121,9 +124,9 @@ def generate_spec(
                 # documentation["usage"] will contain route handler's docstring
                 # or None if it was not present
                 usage = documentation.get("usage")
-                if usage:
-                    handler_spec["summary"] = get_summary(usage)
-                    handler_spec["description"] = usage
+                summary, description = get_summary_and_description(usage)
+                handler_spec["summary"] = summary
+                handler_spec["description"] = description
 
                 parameters = get_parameters(converter, spec, interface, url)
                 if parameters:

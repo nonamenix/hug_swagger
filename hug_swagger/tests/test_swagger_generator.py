@@ -26,6 +26,21 @@ def _generate_spec(api: API, **options):
     return generate_spec(api, **filled_options)
 
 
+def test_summary_and_description(test_api):
+    @route.get("/")
+    def with_documentation():
+        """
+        Handler summary.
+        Handler detailed information.
+        """
+        return "text"
+
+    spec = _generate_spec(test_api)
+    handler_spec = spec["paths"]["/"]["get"]
+    assert handler_spec["summary"] == "Handler summary."
+    assert handler_spec["description"] == "Handler detailed information."
+
+
 @pytest.mark.parametrize("title,spec_title", ((None, DEFAULT_TITLE), ("foo", "foo")))
 def test_title(test_api, title, spec_title):
     spec = _generate_spec(test_api, title=title)
